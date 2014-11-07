@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ * Copyright (c) 2014 Industrial Technology Research Institute of Taiwan.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+-->
+<features name="odl-snmp4sdn-0.1.3-SNAPSHOT" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+   
+    <repository>mvn:org.opendaylight.controller/features-adsal/0.8.1-SNAPSHOT/xml/features</repository>
+    <repository>mvn:org.opendaylight.yangtools/features-yangtools/0.6.2-SNAPSHOT/xml/features</repository>
+    <repository>mvn:org.opendaylight.controller/features-mdsal/1.1-SNAPSHOT/xml/features</repository>
+
+    <feature name='odl-snmp4sdn-all' version='0.1.3-SNAPSHOT' description='OpenDaylight :: SNMP4SDN :: All'>
+        <feature version='0.1.3-SNAPSHOT'>odl-snmp4sdn-snmp4sdn</feature>
+    </feature>
+    <feature name='odl-snmp4sdn-snmp4sdn' version='0.1.3-SNAPSHOT' description='OpenDaylight :: SNMP4SDN :: Plugin'>
+            <feature version="0.8.1-SNAPSHOT">odl-adsal-core</feature>
+            <feature version='1.1-SNAPSHOT'>odl-mdsal-broker</feature>
+            <feature version='0.6.2-SNAPSHOT'>odl-yangtools-binding</feature>
+            <feature version='0.6.2-SNAPSHOT'>odl-yangtools-models</feature>
+            <bundle>mvn:commons-net/commons-net/3.3</bundle>
+            <!--<bundle>mvn:expect4j/expect4j/1.0</bundle>-->
+            <bundle>mvn:org.opendaylight.snmp4sdn/snmp4sdn/0.1.3-SNAPSHOT</bundle>
+            <bundle>mvn:org.opendaylight.snmp4sdn/plugin-shell/0.1.3-SNAPSHOT</bundle>
+            <bundle>mvn:org.opendaylight.snmp4sdn/vlanmd-model/0.1.3-SNAPSHOT</bundle>
+    </feature>
+</features>

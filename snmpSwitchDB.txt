@@ -1,0 +1,4 @@
+MAC,IP,SNMP_Community,CLI_Username,CLI_Password,switch_type
+54:7f:ee:a9:5c:e1,10.82.105.60,private,admin,vam.1234,nexus
+
+

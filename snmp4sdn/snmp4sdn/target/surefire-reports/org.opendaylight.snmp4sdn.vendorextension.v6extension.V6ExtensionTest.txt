@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.opendaylight.snmp4sdn.vendorextension.v6extension.V6ExtensionTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.136 sec - in org.opendaylight.snmp4sdn.vendorextension.v6extension.V6ExtensionTest

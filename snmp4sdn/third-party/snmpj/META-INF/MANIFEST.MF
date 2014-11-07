@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1413905342102
+Build-Jdk: 1.7.0_71
+Built-By: sarianfa
+Bundle-Description: A Java implemention of the SNMP protocol
+Bundle-ManifestVersion: 2
+Bundle-Name: SNMP Java
+Bundle-SymbolicName: org.opendaylight.snmp4sdn.org.snmpj
+Bundle-Version: 1.4.5.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-2.1.0.20130426-122213
