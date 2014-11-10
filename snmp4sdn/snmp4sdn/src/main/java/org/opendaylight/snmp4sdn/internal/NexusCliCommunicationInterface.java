@@ -236,13 +236,33 @@ System.out.println("NexusCliCommunicationInterface.addvlan err: {}"+ e);
         }
         return arrLis;
         }
-                               
+    public void deleteVLANFromInterfaces(Long vlanID, String[] ports){
+         try{
+              expect.executeNexus("configure terminal");
+              for (String port : ports){
+
+          expect.executeNexus("interface " + port);
+          expect.executeNexus("no switchport access vlan "+ Long.toString(vlanID)); 
+          //expect.executeNexus("no shutdown");
+          }
+           //   expect.executeNexus("no vlan " + vlanID);
+              expect.executeNexus("exit");
+              expect.disconnect();
+             }
+          catch(Exception e){
+            System.out.println("NexusCLICommunicationInterface.deleteVLANFromInterface err: {}"+ e);
+        }
+    }                            
     public void deleteVLANFromSwitch(Long vlanID){
          try{
+          //this vlan wouls still show in the printvlantable if there are still interfaces associated to it
+          //e.g. interface ethernet 1/1
+          //cam02-n5k1(config-if)# no switchport access vlan 100
           expect.executeNexus("configure terminal");
           expect.executeNexus("no vlan " + vlanID);
           expect.executeNexus("exit");
           expect.disconnect();  
+          //System.out.println("NexusCLICommunicationInterface.deleteVLANFromSwitch");
           }
           catch(Exception e){
             System.out.println("NexusCLICommunicationInterface.deleteVLANFromSwitch err: {}"+ e);

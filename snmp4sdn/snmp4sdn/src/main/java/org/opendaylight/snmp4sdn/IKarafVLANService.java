@@ -15,6 +15,7 @@ package org.opendaylight.snmp4sdn;
 public interface IKarafVLANService {
     //The following methods are for VLAN configuration. They will be discarded when the VLAN Serivice's MD-SAL is provided later.
     public void addVLANSetPorts(String sw_mac, String vlanID, String vlanName, String portList);
+    public void deleteVLANANDPorts(String sw_mac, String vlanID, String vlanName, String portList);
     public void deleteVLAN(String sw_mac, String vlanID);
     public void printVLANTable(String sw_mac);
     public void setAllVlans(String filepath);

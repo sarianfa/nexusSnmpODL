@@ -489,6 +489,27 @@ public class NexusCliHandler{
         return true;
     }
 
+     public Status deleteVLANPorts (Node node, Long vlanID, String portList){
+        logger.debug("enter NexusCliHandler.deleteVLANPorts()...");
+        Long sw_macAddr = (Long)(node.getID());
+        try{
+           String switchIP = cmethUtil.getIpAddr(sw_macAddr);
+            InetAddress sw_ipAddr = InetAddress.getByName(switchIP);
+            NexusCliCommunicationInterface comInterface = createNexusCliCommInterface(sw_ipAddr);
+             String switchType = cmethUtil.getSwitchType(sw_macAddr);
+             String[] ports = portList.split(",");
+             boolean result = deleteVLANPortsfromSwitch(comInterface, vlanID, ports);
+             return (result == true)?(new Status(StatusCode.SUCCESS, null)):
+                    (new Status(StatusCode.INTERNALERROR,
+                    errorString("program", "snmp to remove vlan ports", "Vendor Extension Internal Error")));
+        }
+        catch (UnknownHostException e) {
+            logger.error("sw_macAddr {} into InetAddress.getByName() error: {}", sw_macAddr, e);
+            return new Status(StatusCode.INTERNALERROR, null);
+        }
+    }
+          
+   
     public Status setVLANPorts (Node node, Long vlanID, String portList){
         logger.debug("enter NexusCliHandler.setVLANPorts()...");
         Long sw_macAddr = (Long)(node.getID());
@@ -498,7 +519,7 @@ public class NexusCliHandler{
             InetAddress sw_ipAddr = InetAddress.getByName(switchIP);
             NexusCliCommunicationInterface comInterface = createNexusCliCommInterface(sw_ipAddr);
              String switchType = cmethUtil.getSwitchType(sw_macAddr);
-             System.out.println("switchType: " + switchType); 
+             //System.out.println("switchType: " + switchType); 
             //logger.debug("snmp connection created...swtich IP addr=" + sw_ipAddr.toString() + ", community=" + community);
 
             //2. now can add vlan
@@ -563,6 +584,18 @@ public class NexusCliHandler{
         return true;
     }
 
+    private boolean deleteVLANPortsfromSwitch(NexusCliCommunicationInterface comInterface, Long vlanID, String[] ports){
+        logger.debug("enter NexusCliHandler.setVLANPortstoSwitch()...");
+        try{
+           comInterface.deleteVLANFromInterfaces(vlanID, ports);
+
+        }
+        catch(Exception e){
+            logger.error("In deleteVLANPortsfromSwitch(), Exception during SNMP setMIBEntry: {}", e);
+            return false;
+        }
+        return true;
+    }
     public Status deleteVLAN(Node node, Long vlanID){//return-- true:success, false:fail
         Long sw_macAddr = (Long)(node.getID());
         try{

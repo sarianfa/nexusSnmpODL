@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.opendaylight.yangtools.featuretest.SingleFeatureTest" time="30.266" tests="2" errors="0" skipped="0" failures="0">
+<testsuite name="org.opendaylight.yangtools.featuretest.SingleFeatureTest" time="36.033" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/amd64"/>
@@ -14,7 +14,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value="unknown"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="/home/sarianfa/snmp4sdn"/>
+    <property name="user.dir" value="/home/sarianfa/nexusSnmpODL/snmp4sdn"/>
     <property name="java.runtime.version" value="1.7.0_71-mockbuild_2014_10_03_09_05-b00"/>
     <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/endorsed"/>
@@ -50,7 +50,7 @@
     <property name="securerandom.source" value="file:/dev/./urandom"/>
     <property name="sun.boot.class.path" value="/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/resources.jar:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/rt.jar:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/jsse.jar:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/jce.jar:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/charsets.jar:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/rhino.jar:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/lib/jfr.jar:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/classes"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="logback.configurationFile" value="/home/sarianfa/snmp4sdn/commons/snmp4sdn/logback.xml"/>
+    <property name="logback.configurationFile" value="/home/sarianfa/nexusSnmpODL/snmp4sdn/commons/snmp4sdn/logback.xml"/>
     <property name="maven.home" value="/opt/apache-maven-3.0.5"/>
     <property name="file.separator" value="/"/>
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
@@ -58,6 +58,6 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase name="installFeature" classname="installFeature(org.opendaylight.yangtools.featuretest.SingleFeatureTest)[repoUrl: file:/home/sarianfa/snmp4sdn/features/target/classes/features.xml, Feature: odl-snmp4sdn-all 0.1.3-SNAPSHOT]" time="15.28"/>
-  <testcase name="installFeature" classname="installFeature(org.opendaylight.yangtools.featuretest.SingleFeatureTest)[repoUrl: file:/home/sarianfa/snmp4sdn/features/target/classes/features.xml, Feature: odl-snmp4sdn-snmp4sdn 0.1.3-SNAPSHOT]" time="14.986"/>
+  <testcase name="installFeature" classname="installFeature(org.opendaylight.yangtools.featuretest.SingleFeatureTest)[repoUrl: file:/home/sarianfa/nexusSnmpODL/snmp4sdn/features/target/classes/features.xml, Feature: odl-snmp4sdn-all 0.1.3-SNAPSHOT]" time="18.789"/>
+  <testcase name="installFeature" classname="installFeature(org.opendaylight.yangtools.featuretest.SingleFeatureTest)[repoUrl: file:/home/sarianfa/nexusSnmpODL/snmp4sdn/features/target/classes/features.xml, Feature: odl-snmp4sdn-snmp4sdn 0.1.3-SNAPSHOT]" time="17.244"/>
 </testsuite>

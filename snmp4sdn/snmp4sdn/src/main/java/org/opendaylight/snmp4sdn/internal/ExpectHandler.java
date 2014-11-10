@@ -143,8 +143,8 @@ public class ExpectHandler{
    public String mywakeup(StringBuffer buf, String cmd) {
         // TODO mark offset, so that it can be trimmed by resume coming in later        
         pause();
-        String username = "admin";
-        String password = "vam.1234";
+        //String username = "admin";
+        //String password = "vam.1234";
         String ret = "";
         int len = buf.length(); 
         //System.out.println("READ NEW STUFF");
@@ -154,7 +154,7 @@ public class ExpectHandler{
                //System.out.println("in login part");
                //writer.write(username);
               // writer.flush();
-              loginwrite(username);
+              loginwrite(this.username);
               resume(len - 1); 
         }else
         if(buf.toString().endsWith("password:")
@@ -162,20 +162,10 @@ public class ExpectHandler{
                //System.out.println("in login password part");
                //writer.write(username);
                //              // writer.flush();
-              loginwrite(password);
+              loginwrite(this.password);
               resume(len - 1); 
              }
         else if(buf.toString().endsWith(prompt + " ")){
-                //System.out.println("Going to analysis in case of "+ prompt + " ");
-                //System.out.println(buf.toString());
-                 /*
-                 if(!firstOrder)
-                   {
-                    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&");
-                    loginwrite(cmd);
-                    firstOrder = true;
-                   } 
-                   */
                 cmdExecuted = true;
                 ret= buf.toString();
                 resume(len - 1); 
@@ -204,8 +194,8 @@ public class ExpectHandler{
    public void telnetLogin() {
         //InputStream in = null;
         //PrintStream out = null;
-        String username = "admin";
-        String password = "vam.1234"; 
+        //String username = "admin";
+        //String password = "vam.1234"; 
       try {
               System.out.println("in telnet login");
     		// Connect to the specified server
@@ -217,13 +207,13 @@ public class ExpectHandler{
     		//
     		//     		    		    		    		    		// Log the user on
      	       readUntil("login: ");
-    		     		    		    		    		    	       loginwrite(username);
+    		     		    		    		    		    	       loginwrite(this.username);
     	       readUntil(" Password: ");
-    		     		    		    		    		     		loginwrite(password);
+    		     		    		    		    		     		loginwrite(this.password);
     		//
     		//     		    		    		    		    		    		    		    		    		    		// Advance to a prompt
          	readUntil(prompt + " ");
-                System.out.println("After successful login");
+                //System.out.println("After successful login");
     		     		    		    		    		    		    		    		    		    		    		    		    	} catch (Exception e) {    		    		    		    		    		    		    		    	 		e.printStackTrace();
     			    		    	    		    	} 
    }
@@ -257,7 +247,8 @@ public String readUntil(String pattern) {
     			sb.append(ch);
     			if (ch == lastChar) {
     				if (sb.toString().endsWith(pattern)) {
-                                        System.out.println(sb.toString());
+                                        if (pattern.equals(prompt + " "))
+                                           System.out.println(sb.toString());
     					return sb.toString();
     				}
                                /* else if (sb.toString().endsWith(" ")){

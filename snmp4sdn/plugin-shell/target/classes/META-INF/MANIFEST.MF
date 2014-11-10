@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1413905351854
+Bnd-LastModified: 1415640731228
 Build-Jdk: 1.7.0_71
 Built-By: sarianfa
 Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
@@ -14,7 +14,7 @@ Export-Package: org.opendaylight.snmp4sdn.shell;uses:="org.apache.felix.
 Import-Package: org.apache.karaf.shell.console;version="[3.0,4)",org.ope
  ndaylight.snmp4sdn;version="[0.1,1)",org.apache.felix.gogo.commands;ver
  sion="[0.10,1)",org.opendaylight.controller.sal.utils;version="[0.7,1)"
- ,org.osgi.service.blueprint;version="[1.0.0,2.0.0)",org.apache.karaf.sh
- ell.commands;version="[3.0,4)",org.apache.felix.service.command;version
- ="[0.10,1)";status=provisional
+ ,org.osgi.service.blueprint;version="[1.0.0,2.0.0)",org.apache.felix.se
+ rvice.command;version="[0.10,1)";status=provisional,org.apache.karaf.sh
+ ell.commands;version="[3.0,4)"
 Tool: Bnd-2.1.0.20130426-122213

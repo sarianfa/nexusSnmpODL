@@ -179,6 +179,12 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
     }
 
     @Override//karaf
+    public void deleteVLANANDPorts(String sw_mac, String vlanID, String vlanName, String portList){
+        logger.info("VLANService.deleteVLANPorts() is called by Karaf");
+        s4sDeleteVLANPorts(sw_mac, vlanID, vlanName, portList);
+    }
+
+    @Override//karaf
     public void deleteVLAN(String sw_mac, String vlanID){   
         logger.info("VLANService.deleteVLAN() is called by Karaf");
         boolean isSuccess = s4sDeleteVLAN_execute(sw_mac, vlanID);
@@ -309,7 +315,15 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
         
         //create nodeConnectors
         String[] ports = portList.split(",");
-        if(nexus ==false){
+        //Long sw_macAddr = (Long)(node.getID());^M
+        //        try{^M
+        //                    //1. open snmp communication interface^M
+        //                                String switchType = cmethUtil.getSwitchType(sw_macAddr);
+        //if (switchType.equals("nexus5k"))                                
+//        if(nexus ==false)
+        String switchType = cmethUtil.getSwitchType(HexString.toLong(sw_mac));
+        if (!switchType.equals("nexus5k")) 
+{
         try{
 
             for(int i = 0; i < ports.length; i++)
@@ -334,6 +348,29 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
         else
             return false;
          }
+    }
+    
+    public Status deleteVLANPorts(Node node, Long vlanID,String portList){
+        Status status = checkNodeIpValid(node);
+        if(status.getCode() != StatusCode.SUCCESS) return status;
+
+        if(vlanID < 1 || vlanID > 4096)
+            return new Status(StatusCode.NOTACCEPTABLE, "VLAN ID as " + vlanID + " is invalid, when addVLAN to node (mac: " + HexString.toHexString((Long)node.getID()) + ")");
+        
+
+        //create nodeConnectors
+        String[] ports = portList.split(",");
+         Long sw_macAddr = (Long)(node.getID());
+        String switchType = cmethUtil.getSwitchType(sw_macAddr);
+        if (!switchType.equals("nexus5k")) {
+
+        //return new SNMPHandler(cmethUtil).deleteVLAN(node, vlanID);
+       return new Status(StatusCode.NOTACCEPTABLE, "VLAN ID as " + vlanID + " is invalid for removing vlan ports from non-nexus switch (mac: " + HexString.toHexString((Long)node.getID()) + ")");
+}
+         else{
+         System.out.println("removing vlan ports from Nexus");
+        return new NexusCliHandler(cmethUtil).deleteVLANPorts(node, vlanID, portList);
+}
     }
 
     public void _s4sDeleteVLAN(CommandInterpreter ci){
@@ -367,7 +404,25 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
          else
             return false;
      }
+    private boolean s4sDeleteVLANPorts_execute(String sw_mac, String vlanID,String portList){
+         if(sw_mac == null || vlanID == null){
+             logger.error("\nPlease use command: s4s, vlanNameVLAN <switch's mac addr> <vlan id>");
+             return false;
+         }
 
+         Node node = null;
+         try{
+             node = new Node("SNMP", new Long(HexString.toLong(sw_mac)));
+         }catch(Exception e){
+             logger.error("in s4sDeleteVLAN_execute(): given switch mac \"" + sw_mac + "\", create node error -- " + e);
+             return false;
+         } 
+         Status status = deleteVLANPorts(node, new Long(Long.parseLong(vlanID)), portList);
+         if(status.isSuccess())
+             return true;
+         else
+            return false;
+     }
     public void _s4sPrintVLANTable(CommandInterpreter ci){
         String sw_mac = ci.nextArgument();
         s4sPrintVLANTable_execute(sw_mac);
@@ -419,7 +474,22 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
         else
             System.out.println("\nFail to set VLAN " + vlanID + " (name: " + vlanName + ") to switch (mac: " + sw_mac + ") with ports " + portList);
     }
+ 
+    //s4sDeleteVLANPorts
+    private void s4sDeleteVLANPorts(String sw_mac, String vlanID, String vlanName, String portList){
+        boolean flag1 = false;
+        boolean flag2 = false;
+        boolean flag = false;
 
+        flag1 = s4sDeleteVLAN_execute(sw_mac, vlanID);
+        flag2 = s4sDeleteVLANPorts_execute(sw_mac, vlanID, portList);
+        flag = flag1 && flag2;
+
+        if(flag)
+            System.out.println("\nVLAN " + vlanID + " (name: " + vlanName + ") is is removed from switch (mac: " + sw_mac + ") with ports " + portList);
+        else
+            System.out.println("\nFail to remove VLAN " + vlanID + " (name: " + vlanName + ") to switch (mac: " + sw_mac + ") with ports " + portList);
+    }
     public void _s4sDemoVLAN (CommandInterpreter ci){
         String sw_mac = ci.nextArgument();
         String vlanID= ci.nextArgument();
@@ -460,10 +530,18 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
 
         if(vlanID < 1 || vlanID > 4096)
             return new Status(StatusCode.NOTACCEPTABLE, "VLAN ID as " + vlanID + " is invalid, when addVLAN to node (mac: " + HexString.toHexString((Long)node.getID()) + ")");
-        if(nexus == false) 
+        Long sw_macAddr = (Long)(node.getID());
+        String switchType = cmethUtil.getSwitchType(sw_macAddr);
+        if (!switchType.equals("nexus5k")) { 
+        //if(nexus == false) 
+        System.out.println("in NO nexus5k");
+       System.out.println(switchType); 
         return new SNMPHandler(cmethUtil).addVLAN(node, vlanID);
-        else
+       }    
+        else{
+        System.out.println("in nexus5k");
         return new NexusCliHandler(cmethUtil).addVLAN(node, vlanID);   
+        }
     }
 
     @Override
@@ -473,7 +551,10 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
 
         if(vlanID < 1 || vlanID > 4096)
             return new Status(StatusCode.NOTACCEPTABLE, "VLAN ID as " + vlanID + " is invalid, when addVLAN to node (mac: " + HexString.toHexString((Long)node.getID()) + ")");
-        if(nexus == false)
+        //if(nexus == false)
+         Long sw_macAddr = (Long)(node.getID());
+        String switchType = cmethUtil.getSwitchType(sw_macAddr);
+        if (!switchType.equals("nexus5k")) 
         return new SNMPHandler(cmethUtil).addVLAN(node, vlanID, vlanName);
          else
         return new NexusCliHandler(cmethUtil).addVLAN(node, vlanID, vlanName);  
@@ -486,7 +567,10 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
 
         if(vlanID < 1 || vlanID > 4096)
             return new Status(StatusCode.NOTACCEPTABLE, "VLAN ID as " + vlanID + " is invalid, when addVLAN to node (mac: " + HexString.toHexString((Long)node.getID()) + ")");
-        if(nexus == false)
+        //if(nexus == false)
+         Long sw_macAddr = (Long)(node.getID());
+        String switchType = cmethUtil.getSwitchType(sw_macAddr);
+        if (!switchType.equals("nexus5k")) 
         return new SNMPHandler(cmethUtil).setVLANPorts(node, vlanID, nodeConns);
          //else
         //return new NexusCliHandler(cmethUtil).setVLANPorts(node, vlanID, nodeConns);
@@ -500,11 +584,19 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
 
         if(vlanID < 1 || vlanID > 4096)
             return new Status(StatusCode.NOTACCEPTABLE, "VLAN ID as " + vlanID + " is invalid, when addVLAN to node (mac: " + HexString.toHexString((Long)node.getID()) + ")");
-        if(nexus == false)
+        
+         Long sw_macAddr = (Long)(node.getID());
+        String switchType = cmethUtil.getSwitchType(sw_macAddr);
+        if (!switchType.equals("nexus5k")) {
+        
         return new SNMPHandler(cmethUtil).deleteVLAN(node, vlanID);
-         else
+}
+         else{
+         System.out.println("removing vlan from Nexus"); 
         return new NexusCliHandler(cmethUtil).deleteVLAN(node, vlanID);
+}
     }
+    
 
     @Override
     public List<NodeConnector> getVLANPorts(Node node, Long vlanID){
@@ -512,7 +604,10 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
         if(status.getCode() != StatusCode.SUCCESS) return null;
 
         if(vlanID < 1 || vlanID > 4096) return null;
-        if(nexus == false)
+        //if(nexus == false)
+         Long sw_macAddr = (Long)(node.getID());
+        String switchType = cmethUtil.getSwitchType(sw_macAddr);
+        if (!switchType.equals("nexus5k")) 
         return new SNMPHandler(cmethUtil).getVLANPorts(node, vlanID);
          else
         return new NexusCliHandler(cmethUtil).getVLANPorts(node, vlanID);
@@ -522,7 +617,10 @@ public class VLANService implements /*IPluginInVLANService,//custom ad-sal*/ Vla
     public VLANTable getVLANTable(Node node){
         Status status = checkNodeIpValid(node);
         if(status.getCode() != StatusCode.SUCCESS) return null;
-        if(nexus == false)
+        //if(nexus == false)
+         Long sw_macAddr = (Long)(node.getID());
+        String switchType = cmethUtil.getSwitchType(sw_macAddr);
+        if (!switchType.equals("nexus5k")) 
         return new SNMPHandler(cmethUtil).getVLANTable(node);
         else
         return new NexusCliHandler(cmethUtil).getVLANTable(node);

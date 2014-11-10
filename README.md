@@ -13,7 +13,7 @@ and CLI (write). The only supported feature is adding and showing VLANs.
 Use case
 ============
 
-The actual ODL controller (version Hellium) needs to be downloaded from the ODL webpage and extracted (currently there seem 
+The actual ODL controller (version Heluim) needs to be downloaded from the ODL webpage and extracted (currently there seem 
 to be some bug in the system that evey time something changes in the snmp plugin the controller tar.gz file needs to be 
 extracted again)
 

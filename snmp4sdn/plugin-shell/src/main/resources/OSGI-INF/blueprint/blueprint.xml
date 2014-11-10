@@ -18,6 +18,11 @@
           </action>
         </command>
         <command>
+          <action class="org.opendaylight.snmp4sdn.shell.DeleteVlanAndPorts">
+                              <!--<property name="vlanService" ref="iVLANServiceRef"/>--><!--see the IKarafVLANService line above-->
+          </action>
+        </command>
+        <command>
           <action class="org.opendaylight.snmp4sdn.shell.DeleteVlan">
             <!--<property name="vlanService" ref="iVLANServiceRef"/>--><!--see the IKarafVLANService line above-->
           </action>

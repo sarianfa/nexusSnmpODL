@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1413905350760
+Bnd-LastModified: 1415640730195
 Build-Jdk: 1.7.0_71
 Built-By: sarianfa
 Bundle-Activator: org.opendaylight.snmp4sdn.internal.Activator
